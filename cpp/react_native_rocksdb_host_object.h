@@ -14,8 +14,7 @@ class JSI_EXPORT reactNativeRocksdbHostObject: jsi::HostObject {
     std::vector<jsi::PropNameID> getPropertyNames(jsi::Runtime& rt) override;
 
   private:
-    std::vector<std::unique_ptr<rocksdb::DB>> dbs;
-    std::vector<std::unique_ptr<rocksdb::Iterator>> iterators;
+    rocksdb:DB* dbInstance;
 }
 
 #endif //ROCKSDBHOSTOBJECT_H

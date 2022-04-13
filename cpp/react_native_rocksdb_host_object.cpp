@@ -18,53 +18,16 @@ bool valueToString(jsi::Runtime& runtime, const jsi::Value& value, std::string* 
   return false;
 }
 
-rocksdb::DB* valueToDb(const jsi::Value& value, std::string* err) {
-  if (!value.isNumber()) {
-    *err = "valueToDb/param-not-a-number";
-    return nullptr;
-  }
-  int idx = (int)value.getNumber();
-  if (idx < 0 || idx >= dbs.size()) {
-    *err = "valueToDb/idx-out-of-range";
-    return nullptr;
-  }
-  if (!dbs[idx].get()) {
-    *err = "valueToDb/db-closed";
-    return nullptr;
-  }
-  return dbs[idx].get();
-}
 
-rocksdb::Iterator* valueToIterator(const jsi::Value& value) {
-  if (!value.isNumber()) {
-    return nullptr;
-  }
-  int idx = (int)value.getNumber();
-  if (idx < 0 || idx >= iterators.size()) {
-    return nullptr;
-  }
-
-  return iterators[idx].get();
-}
 
 std::vector<jsi::PropNameID> Sha1HostObject::getPropertyNames(jsi::Runtime& rt) {
     std::vector<jsi::PropNameID> props;
     props.push_back(jsi::PropNameID::forUtf8(rt, std::string("open")));
     props.push_back(jsi::PropNameID::forUtf8(rt, std::string("destroy")));
     props.push_back(jsi::PropNameID::forUtf8(rt, std::string("close")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("put")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("delete")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("get")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("newIterator")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("iteratorSeekToFirst")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("iteratorSeekToLast")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("iteratorSeekToIdx")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("iteratorValid")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("iteratorPrevious")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("iteratorNext")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("iteratorDelete")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("iteratorKeyAsStr")));
-    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("iteratorValueAsStr")));
+    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("setItem")));
+    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("removeItem")));
+    props.push_back(jsi::PropNameID::forUtf8(rt, std::string("getItem")));
     return props;
 }
 
